@@ -221,10 +221,13 @@ enum Suit: SequenceType, Printable {
     }
     
     func outRanks(rhs: Suit) -> Bool {
+        // using the ranking used in Bridge
         if self == rhs {
             // no suit outranks itself
             return false
         }
+        
+        // having dispensed with the equality case, let's do the comparisons
         switch self {
         case .Spades:
             // Spades outrank all
