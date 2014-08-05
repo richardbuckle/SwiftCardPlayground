@@ -239,6 +239,7 @@ assert(hearts.simpleDescription() == "hearts")
 assert(hearts.color == "red")
 assert(hearts.symbol == "♥️")
 
+// pay attention to the ! signs in the following tests
 assert(!Suit.Spades.outRanks(Suit.Spades))
 assert(Suit.Spades.outRanks(Suit.Hearts))
 assert(Suit.Spades.outRanks(Suit.Diamonds))
@@ -412,5 +413,5 @@ shuffledSymbols
 let resortedDeck = shuffledDeck.sorted(<)
 let originalSortedDeck = deck.sorted(<)
 let resortedDeckSymbols = resortedDeck.map({$0.symbol})
-resortedDeckSymbols
 assert(resortedDeck == originalSortedDeck, "Deck sorts back correctly")
+resortedDeckSymbols
