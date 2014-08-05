@@ -101,11 +101,10 @@ enum Rank: Int, SequenceType, Printable {
     }
     
     func ranking(acesHigh: Bool = false) -> Int {
-        let rank = self.toRaw()
-        if acesHigh && rank == Rank.Ace.toRaw() {
+        if acesHigh && self == .Ace {
             return Rank.King.toRaw() + 1
         }
-        return rank
+        return self.toRaw()
     }
     
     func compareTo(rhs:Rank, acesHigh: Bool = false) -> Int {
