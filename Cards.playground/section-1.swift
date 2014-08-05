@@ -148,8 +148,8 @@ assert(Rank.King.compareTo(.Ace) == 1, "Default is Aces low")
 // MARK: - Suit
 
 /// Represents the suit of a traditional Western playing card using the ranking used in Bridge
-// Notice that I never call toRaw() or fromRaw() here
-enum Suit: Int, SequenceType, Printable {
+// For learning purposes, this enum isn't an Int, even though that might be a more efficient implementation.
+enum Suit: SequenceType, Printable {
     case Spades, Hearts, Diamonds, Clubs
     
     typealias Generator = SuitGenerator
