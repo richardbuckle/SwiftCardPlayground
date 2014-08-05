@@ -292,10 +292,10 @@ struct Card : Comparable, Printable {
     }
     
     func outRanks(otherCard: Card, acesHigh: Bool = false) -> Bool {
-        let comparison = self.rank.compareTo(otherCard.rank, acesHigh: acesHigh)
-        if comparison == 1 {
+        let rankComparison = self.rank.compareTo(otherCard.rank, acesHigh: acesHigh)
+        if rankComparison == 1 {
             return true
-        } else if comparison == -1 {
+        } else if rankComparison == -1 {
             return false
         } else {
             return suit.outRanks(otherCard.suit)
