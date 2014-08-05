@@ -222,9 +222,23 @@ enum Suit: Int, SequenceType, Printable {
     
     func outRanks(rhs: Suit) -> Bool {
         if self == rhs {
+            // no suit outranks itself
             return false
         }
-        return self == .Spades || self.toRaw() < rhs.toRaw()
+        switch self {
+        case .Spades:
+            // Spades outrank all
+            return true
+        case .Hearts:
+            // Hearts outrank all but Spades
+            return rhs != .Spades
+        case .Diamonds:
+            // Diamonds outrank all but Spades and Hearts
+            return rhs != .Spades && rhs != .Hearts
+        case .Clubs:
+            // Clubs outrank nothing
+            return false
+        }
     }
     
     var description: String {
