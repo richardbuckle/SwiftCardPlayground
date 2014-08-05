@@ -16,7 +16,7 @@ Both `Rank` and `Suit` implement a `next()` method that ultimately returns `nil`
 
 Both `Rank` and `Suit` expose a generator that defaults to being initialized with the first member of the sequence.
 
-Thus, knowledge of the "first" and "last" elements of the sequence are confined within the respective enums.
+Thus, knowledge of the "first" and "last" elements of the sequence is confined within the respective enums.
 
 It then becomes a simple matter of declaring `typealias GeneratorType = BlahGenerator` and implementing `func generate()` to return `BlahGenerator(blah: self)`.
 
@@ -30,4 +30,4 @@ This could be made more generic, and a past incarnation of me used to do that so
 
 ## Licence
 
-MIT licence. I'm not fusssed about attribtution for something this trivial, so do with this code as you like.
+MIT licence. I'm not fussed about attribution for something this trivial, so do with this code as you like.
