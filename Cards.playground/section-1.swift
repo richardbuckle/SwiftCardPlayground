@@ -302,7 +302,7 @@ assert(suitString == "♠️♥️♦️♣️", "suits should appear in Bridge 
 // MARK: - Card
 
 /// Represents a traditional Western playing card (without Jokers)
-struct Card : Comparable, Printable {
+struct Card : Comparable, Hashable, Printable {
     let rank: Rank
     let suit: Suit
     
@@ -330,9 +330,15 @@ struct Card : Comparable, Printable {
         }
     }
     
-    // since I implement equals, do I also need to implement hash? Unclear.
     func equals(otherCard: Card) -> Bool {
         return rank == otherCard.rank && suit == otherCard.suit
+    }
+    
+    // since I implement equals, do I also need to implement hashValue? Unclear, but I'll do it anyway.
+    var hashValue: Int { 
+        get {
+            return self.symbol.hashValue
+        }
     }
     
     static func fullDeck() -> [Card] {
@@ -367,6 +373,8 @@ assert(jackOfDiamonds == card36, "the == operator works too")
 assert(jackOfDiamonds.description == card36.description, "they have the same description too")
 assert( !(jackOfDiamonds < card36), "they sort equally")
 assert( !(jackOfDiamonds > card36), "they sort equally")
+
+assert(jackOfDiamonds.hashValue == "J♦️".hashValue, "hash value is built from symbol")
 
 let decksymbols = deck.map({$0.symbol})
 decksymbols // for visual inspection in the Playground
