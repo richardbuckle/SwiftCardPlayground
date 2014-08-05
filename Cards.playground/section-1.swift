@@ -297,10 +297,8 @@ struct Card : Comparable, Printable {
             return true
         } else if comparison == -1 {
             return false
-        } else if suit == otherCard.suit {
-            return false
         } else {
-            return suit == .Spades || suit.toRaw() < otherCard.suit.toRaw()
+            return suit.outRanks(otherCard.suit)
         }
     }
     
