@@ -37,7 +37,7 @@ enum Rank: Int, SequenceType, Printable {
     typealias Generator = RankGenerator
     
     func generate() -> RankGenerator {
-        return RankGenerator(rank: self)
+        return RankGenerator()
     }
     
     func simpleDescription() -> String {
@@ -155,7 +155,7 @@ enum Suit: SequenceType, Printable {
     typealias Generator = SuitGenerator
     
     func generate() -> SuitGenerator {
-        return SuitGenerator(suit: self)
+        return SuitGenerator()
     }
     
     func simpleDescription() -> String {
