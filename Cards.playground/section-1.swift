@@ -220,6 +220,13 @@ enum Suit: Int, SequenceType, Printable {
         }
     }
     
+    func outRanks(rhs: Suit) -> Bool {
+        if self == rhs {
+            return false
+        }
+        return self == .Spades || self.toRaw() < rhs.toRaw()
+    }
+    
     var description: String {
         return "Suit: \(symbol)"
     }
@@ -231,6 +238,26 @@ let hearts = Suit.Hearts
 assert(hearts.simpleDescription() == "hearts")
 assert(hearts.color == "red")
 assert(hearts.symbol == "♥️")
+
+assert(!Suit.Spades.outRanks(Suit.Spades))
+assert(Suit.Spades.outRanks(Suit.Hearts))
+assert(Suit.Spades.outRanks(Suit.Diamonds))
+assert(Suit.Spades.outRanks(Suit.Clubs))
+
+assert(!Suit.Hearts.outRanks(Suit.Spades))
+assert(!Suit.Hearts.outRanks(Suit.Hearts))
+assert(Suit.Hearts.outRanks(Suit.Diamonds))
+assert(Suit.Hearts.outRanks(Suit.Clubs))
+
+assert(!Suit.Diamonds.outRanks(Suit.Spades))
+assert(!Suit.Diamonds.outRanks(Suit.Hearts))
+assert(!Suit.Diamonds.outRanks(Suit.Diamonds))
+assert(Suit.Diamonds.outRanks(Suit.Clubs))
+
+assert(!Suit.Clubs.outRanks(Suit.Spades))
+assert(!Suit.Clubs.outRanks(Suit.Hearts))
+assert(!Suit.Clubs.outRanks(Suit.Diamonds))
+assert(!Suit.Clubs.outRanks(Suit.Clubs))
 
 func allSuits() -> [Suit] {
     var all = [Suit]()
