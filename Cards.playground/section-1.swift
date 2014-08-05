@@ -121,9 +121,8 @@ enum Rank: Int, SequenceType, Printable {
 
 func allRanks() -> [Rank] {
     var all = [Rank]()
-    var generator = Rank.RankGenerator()
-    while let next = generator.next() {
-        all.append(next)
+    for rank in Rank.Ace {
+        all.append(rank)
     }
     return all
 }
@@ -279,9 +278,8 @@ assert(!Suit.Clubs.outRanks(Suit.Clubs))
 
 func allSuits() -> [Suit] {
     var all = [Suit]()
-    var generator = Suit.SuitGenerator()
-    while let next = generator.next() {
-        all.append(next)
+    for suit in Suit.Spades {
+        all.append(suit)
     }
     return all
 }
@@ -332,10 +330,8 @@ struct Card : Comparable, Printable {
     static func fullDeck() -> [Card] {
         // *** This is the real reason why I wrote this playground: the ability to use generators on suit and rank ***
         var deck = [Card]()
-        var suitGenerator = Suit.SuitGenerator()
-        while let suit = suitGenerator.next() {
-            var rankGenerator = Rank.RankGenerator()
-            while let rank = rankGenerator.next() {
+        for suit in Suit.Spades {
+            for rank in Rank.Ace {
                 let card = Card(rank: rank, suit: suit)
                 deck.append(card)
             }
