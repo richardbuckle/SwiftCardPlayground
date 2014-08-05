@@ -34,10 +34,8 @@ enum Rank: Int, SequenceType, Printable {
     case Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
     case Jack, Queen, King
     
-    typealias Generator = RankGenerator
-    
-    func generate() -> RankGenerator {
-        return RankGenerator()
+    init() {
+        self = .Ace
     }
     
     func simpleDescription() -> String {
@@ -72,6 +70,10 @@ enum Rank: Int, SequenceType, Printable {
         }
     }
     
+    var description: String {
+        return "Rank: \(symbol)"
+    }
+    
     func next() -> Rank? {
         switch self {
         case .King:
@@ -82,8 +84,14 @@ enum Rank: Int, SequenceType, Printable {
         }
     }
     
+    typealias Generator = RankGenerator
+    
+    func generate() -> RankGenerator {
+        return RankGenerator()
+    }
+    
     struct RankGenerator: GeneratorType {
-        var rank: Rank? = Rank.Ace // default to starting with the lowest rank
+        var rank: Rank? = Rank()
         
         mutating func next() -> Rank? {
             let currentRank = rank
@@ -111,17 +119,13 @@ enum Rank: Int, SequenceType, Printable {
             return 1
         }
     }
-    
-    var description: String {
-        return "Rank: \(symbol)"
-    }
 }
 
 // MARK: Rank tests
 
 func allRanks() -> [Rank] {
     var all = [Rank]()
-    for rank in Rank.Ace {
+    for rank in Rank() {
         all.append(rank)
     }
     return all
@@ -151,10 +155,8 @@ assert(Rank.King.compareTo(.Ace) == 1, "Default is Aces low")
 enum Suit: SequenceType, Printable {
     case Spades, Hearts, Diamonds, Clubs
     
-    typealias Generator = SuitGenerator
-    
-    func generate() -> SuitGenerator {
-        return SuitGenerator()
+    init() {
+        self = .Spades
     }
     
     func simpleDescription() -> String {
@@ -194,17 +196,6 @@ enum Suit: SequenceType, Printable {
         }
     }
     
-    struct SuitGenerator: GeneratorType {
-        // using the ranking used in Bridge
-        var suit: Suit? = Suit.Spades
-        
-        mutating func next() -> Suit? {
-            let currentSuit = suit
-            suit = suit?.next()
-            return currentSuit
-        }
-    }
-    
     func next() -> Suit? {
         // using the ranking used in Bridge
         switch self {
@@ -216,6 +207,23 @@ enum Suit: SequenceType, Printable {
             return .Clubs
         case .Clubs:
             return nil
+        }
+    }
+    
+    typealias Generator = SuitGenerator
+    
+    func generate() -> SuitGenerator {
+        return SuitGenerator()
+    }
+    
+    struct SuitGenerator: GeneratorType {
+        // using the ranking used in Bridge
+        var suit: Suit? = Suit()
+        
+        mutating func next() -> Suit? {
+            let currentSuit = suit
+            suit = suit?.next()
+            return currentSuit
         }
     }
     
@@ -278,7 +286,7 @@ assert(!Suit.Clubs.outRanks(Suit.Clubs))
 
 func allSuits() -> [Suit] {
     var all = [Suit]()
-    for suit in Suit.Spades {
+    for suit in Suit() {
         all.append(suit)
     }
     return all
@@ -307,6 +315,10 @@ struct Card : Comparable, Printable {
         return rank.symbol + suit.symbol
     }
     
+    var description: String {
+        return "Card: \(symbol)"
+    }
+    
     func outRanks(otherCard: Card, acesHigh: Bool = false) -> Bool {
         let rankComparison = self.rank.compareTo(otherCard.rank, acesHigh: acesHigh)
         if rankComparison == 1 {
@@ -322,16 +334,12 @@ struct Card : Comparable, Printable {
     func equals(otherCard: Card) -> Bool {
         return rank == otherCard.rank && suit == otherCard.suit
     }
-
-    var description: String {
-        return "Card: \(symbol)"
-    }
     
     static func fullDeck() -> [Card] {
         // *** This is the real reason why I wrote this playground: the ability to use generators on suit and rank ***
         var deck = [Card]()
-        for suit in Suit.Spades {
-            for rank in Rank.Ace {
+        for suit in Suit() {
+            for rank in Rank() {
                 let card = Card(rank: rank, suit: suit)
                 deck.append(card)
             }
