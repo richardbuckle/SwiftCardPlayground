@@ -29,12 +29,12 @@ import Foundation // needed only for arc4random_uniform()
 // MARK: - Rank
 
 /// Represents the rank of a traditional Western playing card
-enum Rank: Int, Sequence, Printable {
+enum Rank: Int, SequenceType, Printable {
     case Ace = 1
     case Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
     case Jack, Queen, King
     
-    typealias GeneratorType = RankGenerator
+    typealias Generator = RankGenerator
     
     func generate() -> RankGenerator {
         return RankGenerator(rank: self)
@@ -82,7 +82,7 @@ enum Rank: Int, Sequence, Printable {
         }
     }
     
-    struct RankGenerator: Generator {
+    struct RankGenerator: GeneratorType {
         var rank: Rank? = Rank.Ace // default to starting with the lowest rank
         
         mutating func next() -> Rank? {
@@ -149,10 +149,10 @@ assert(Rank.King.compareTo(.Ace) == 1, "Default is Aces low")
 
 /// Represents the suit of a traditional Western playing card using the ranking used in Bridge
 // Notice that I never call toRaw() or fromRaw() here
-enum Suit: Int, Sequence, Printable {
+enum Suit: Int, SequenceType, Printable {
     case Spades, Hearts, Diamonds, Clubs
     
-    typealias GeneratorType = SuitGenerator
+    typealias Generator = SuitGenerator
     
     func generate() -> SuitGenerator {
         return SuitGenerator(suit: self)
@@ -195,7 +195,7 @@ enum Suit: Int, Sequence, Printable {
         }
     }
     
-    struct SuitGenerator: Generator {
+    struct SuitGenerator: GeneratorType {
         // using the ranking used in Bridge
         var suit: Suit? = Suit.Spades
         
