@@ -70,6 +70,15 @@ enum Rank: Int, SequenceType, Printable {
         }
     }
     
+    var isFaceCard: Bool {
+        switch self {
+        case .Jack, .Queen, .King:
+            return true
+        default:
+            return false
+        }
+    }
+    
     var description: String {
         return "Rank: \(symbol)"
     }
@@ -124,6 +133,18 @@ enum Rank: Int, SequenceType, Printable {
 let rankString = reduce(Rank(), "", {$0 + $1.symbol})
 rankString
 assert(rankString == "A2345678910JQK", "The ranks are ordered from Ace to King")
+
+assert(Rank.King.isFaceCard, "A King is a face card")
+let faceCards = filter(Rank()){$0.isFaceCard}
+let faceCardsString = faceCards.reduce(""){$0 + $1.symbol}
+faceCardsString
+assert(faceCardsString == "JQK", "The face cards from Jack to King")
+
+assert(!Rank.Ace.isFaceCard, "An Ace is a spot card")
+let spotCards = filter(Rank()){!$0.isFaceCard}
+let spotCardsString = spotCards.reduce(""){$0 + $1.symbol}
+spotCardsString
+assert(spotCardsString == "A2345678910", "The spot cards from Ace to Ten")
 
 assert(Rank.Five.simpleDescription() == "5", "A five card is described as '5'")
 assert(Rank.King.symbol == "K", "A King card is described as 'K'")
@@ -323,6 +344,10 @@ struct Card : Comparable, Hashable, Printable {
         }
     }
     
+    var isFaceCard: Bool {
+        return self.rank.isFaceCard
+    }
+    
     static func fullDeck() -> [Card] {
         // *** This is the real reason why I wrote this playground: the ability to use generators on suit and rank ***
         var deck = [Card]()
@@ -387,6 +412,11 @@ let deckAcesHigh = sorted(deck) {
 let deckSymbolsAceHigh = deckAcesHigh.map({$0.symbol})
 deckSymbolsAceHigh // for visual inspection in the Playground
 deckSymbolsAceHigh.reverse() // for visual inspection in the Playground
+
+let faceCardsDeck = deck.filter{$0.isFaceCard}
+assert(faceCardsDeck.count == 12, "There are 12 face cards in a standard deck")
+let faceCardSymbols = faceCardsDeck.reduce(""){$0 + $1.symbol}
+println(faceCardsDeck)
 
 
 // MARK: - Shuffle
