@@ -276,6 +276,10 @@ let suitString = reduce(Suit(), "", {$0 + $1.symbol})
 suitString
 assert(suitString == "♠️♥️♦️♣️", "suits should appear in Bridge order")
 
+let redSuits = filter(Suit()) {$0.color == "red"}
+let redSuitSymbols = redSuits.reduce("", {$0 + $1.symbol})
+redSuitSymbols
+assert(redSuitSymbols == "♥️♦️", "only red suits, in Bridge order")
 
 // MARK: - Card
 
