@@ -121,19 +121,8 @@ enum Rank: Int, SequenceType, Printable {
 }
 
 // MARK: Rank tests
-
-func allRanks() -> [Rank] {
-    var all = [Rank]()
-    for rank in Rank() {
-        all.append(rank)
-    }
-    return all
-}
-
-let allTheRanks = allRanks()
-assert(allTheRanks.count == 13)
-let rankSymbols = allTheRanks.map({$0.symbol})
-let rankString = rankSymbols.reduce("", +)
+let rankString = reduce(Rank(), "", {$0 + $1.symbol})
+rankString
 assert(rankString == "A2345678910JQK", "The ranks are ordered from Ace to King")
 
 assert(Rank.Five.simpleDescription() == "5", "A five card is described as '5'")
@@ -283,18 +272,8 @@ assert(!Suit.Clubs.outRanks(Suit.Hearts))
 assert(!Suit.Clubs.outRanks(Suit.Diamonds))
 assert(!Suit.Clubs.outRanks(Suit.Clubs))
 
-func allSuits() -> [Suit] {
-    var all = [Suit]()
-    for suit in Suit() {
-        all.append(suit)
-    }
-    return all
-}
-
-let allTheSuits = allSuits()
-assert(allTheSuits.count == 4)
-let suitSymbols = allTheSuits.map({$0.symbol})
-let suitString = suitSymbols.reduce("", +)
+let suitString = reduce(Suit(), "", {$0 + $1.symbol})
+suitString
 assert(suitString == "♠️♥️♦️♣️", "suits should appear in Bridge order")
 
 
