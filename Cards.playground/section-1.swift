@@ -130,19 +130,19 @@ enum Rank: Int, SequenceType, Printable {
 }
 
 // MARK: Rank tests
-let rankString = reduce(Rank(), ""){$0 + $1.symbol}
+let rankString = reduce(Rank(), "") {$0 + $1.symbol}
 rankString
 assert(rankString == "A2345678910JQK", "The ranks are ordered from Ace to King")
 
 assert(Rank.King.isFaceCard, "A King is a face card")
-let faceCards = filter(Rank()){$0.isFaceCard}
-let faceCardsString = faceCards.reduce(""){$0 + $1.symbol}
+let faceCards = filter(Rank()) {$0.isFaceCard}
+let faceCardsString = faceCards.reduce("") {$0 + $1.symbol}
 faceCardsString
 assert(faceCardsString == "JQK", "The face cards from Jack to King")
 
 assert(!Rank.Ace.isFaceCard, "An Ace is a spot card")
-let spotCards = filter(Rank()){!$0.isFaceCard}
-let spotCardsString = spotCards.reduce(""){$0 + $1.symbol}
+let spotCards = filter(Rank()) {!$0.isFaceCard}
+let spotCardsString = spotCards.reduce("") {$0 + $1.symbol}
 spotCardsString
 assert(spotCardsString == "A2345678910", "The spot cards from Ace to Ten")
 
@@ -419,7 +419,7 @@ let faceCardSymbols = faceCardsDeck.reduce(""){$0 + $1.symbol}
 faceCardSymbols
 
 // a Piquet deck omits cards of rank 2...6 <http://en.wikipedia.org/wiki/Piquet>
-let piquetDeck = deck.filter{
+let piquetDeck = deck.filter {
     (card: Card) in
     // an alternative to switching on raw values is to make Rank Comparable, but that conflicts with making the acesHigh rule explicit
     switch card.rank.toRaw() {
@@ -438,8 +438,7 @@ piquetDeckSymbols
 
 // Fisher–Yates shuffle <http://en.wikipedia.org/wiki/Fisher-Yates_Shuffle> adapted from
 // <http://iosdevelopertips.com/swift-code/swift-shuffle-array-type.html> with j being "let" not "var"
-func shuffleArray<T>(inout array: Array<T>) -> Array<T>
-{
+func shuffleArray<T>(inout array: Array<T>) -> Array<T> {
     for var index = array.count - 1; index > 0; index-- {
         // Random int from 0 to index-1
         let j = Int(arc4random_uniform(UInt32(index-1)))
@@ -460,14 +459,14 @@ func shuffledArray<T>(array: Array<T>) -> Array<T> {
 // Not testing the stochastic quality of the shuffle algo, just that it isn't changing the array passed in.
 
 let shuffledDeck = shuffledArray(deck)
-let decksymbols2 = deck.map({$0.symbol})
+let decksymbols2 = deck.map {$0.symbol }
 decksymbols2
 assert(decksymbols == decksymbols2, "original deck not shuffled")
-let shuffledSymbols = shuffledDeck.map({$0.symbol})
+let shuffledSymbols = shuffledDeck.map {$0.symbol}
 shuffledSymbols
 
 let resortedDeck = shuffledDeck.sorted(<)
 let originalSortedDeck = deck.sorted(<)
-let resortedDeckSymbols = resortedDeck.map({$0.symbol})
+let resortedDeckSymbols = resortedDeck.map {$0.symbol}
 assert(resortedDeck == originalSortedDeck, "Deck sorts back correctly")
 resortedDeckSymbols
