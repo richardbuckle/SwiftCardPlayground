@@ -417,7 +417,21 @@ let faceCardsDeck = deck.filter{$0.isFaceCard}
 assert(faceCardsDeck.count == 12, "There are 12 face cards in a standard deck")
 assert(deck.count == 52, "Original desk not stripped")
 let faceCardSymbols = faceCardsDeck.reduce(""){$0 + $1.symbol}
-println(faceCardsDeck)
+faceCardSymbols
+
+// a Piquet deck strips cards of rank 2...6 <http://en.wikipedia.org/wiki/Piquet>
+let piquetDeck = deck.filter{
+    (card: Card) in
+    switch card.rank.toRaw() {
+    case Rank.Two.toRaw()...Rank.Six.toRaw():
+        return false
+    default:
+        return true
+    }
+}
+assert(piquetDeck.count == 32, "There are 32 cards in a Piquet deck")
+let piquetDeckSymbols = piquetDeck.reduce(""){$0 + $1.symbol}
+piquetDeckSymbols
 
 
 // MARK: - Shuffle
