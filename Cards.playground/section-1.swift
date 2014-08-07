@@ -130,7 +130,7 @@ enum Rank: Int, SequenceType, Printable {
 }
 
 // MARK: Rank tests
-let rankString = reduce(Rank(), "", {$0 + $1.symbol})
+let rankString = reduce(Rank(), ""){$0 + $1.symbol}
 rankString
 assert(rankString == "A2345678910JQK", "The ranks are ordered from Ace to King")
 
@@ -155,7 +155,6 @@ assert(Rank.Ace.compareTo(.King, acesHigh: true) == 1, "Ace beats King when Aces
 assert(Rank.King.compareTo(.Ace, acesHigh: true) == -1, "Ace beats King when Aces are high")
 assert(Rank.Ace.compareTo(.King) == -1, "Default is Aces low")
 assert(Rank.King.compareTo(.Ace) == 1, "Default is Aces low")
-
 
 // MARK: - Suit
 
@@ -419,9 +418,10 @@ assert(deck.count == 52, "Original desk not stripped")
 let faceCardSymbols = faceCardsDeck.reduce(""){$0 + $1.symbol}
 faceCardSymbols
 
-// a Piquet deck strips cards of rank 2...6 <http://en.wikipedia.org/wiki/Piquet>
+// a Piquet deck omits cards of rank 2...6 <http://en.wikipedia.org/wiki/Piquet>
 let piquetDeck = deck.filter{
     (card: Card) in
+    // an alternative to switching on raw values is to make Rank Comparable, but that conflicts with making the acesHigh rule explicit
     switch card.rank.toRaw() {
     case Rank.Two.toRaw()...Rank.Six.toRaw():
         return false
