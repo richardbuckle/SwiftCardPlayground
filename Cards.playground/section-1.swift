@@ -409,12 +409,13 @@ let deckAcesHigh = sorted(deck) {
     card1, card2 in 
     return card1.outRanks(card2, acesHigh: true) 
 }
-let deckSymbolsAceHigh = deckAcesHigh.map({$0.symbol})
+let deckSymbolsAceHigh = deckAcesHigh.map{$0.symbol}
 deckSymbolsAceHigh // for visual inspection in the Playground
 deckSymbolsAceHigh.reverse() // for visual inspection in the Playground
 
 let faceCardsDeck = deck.filter{$0.isFaceCard}
 assert(faceCardsDeck.count == 12, "There are 12 face cards in a standard deck")
+assert(deck.count == 52, "Original desk not stripped")
 let faceCardSymbols = faceCardsDeck.reduce(""){$0 + $1.symbol}
 println(faceCardsDeck)
 
