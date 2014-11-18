@@ -50,7 +50,7 @@ enum Rank: Int, SequenceType, Printable {
         case .King:
             return "king"
         default:
-            return String(self.toRaw())
+            return String(self.rawValue)
         }
     }
     
@@ -66,7 +66,7 @@ enum Rank: Int, SequenceType, Printable {
         case .King:
             return "K"
         default:
-            return String(self.toRaw())
+            return String(self.rawValue)
         }
     }
     
@@ -88,8 +88,8 @@ enum Rank: Int, SequenceType, Printable {
         case .King:
             return nil
         default:
-            let rawVal = self.toRaw()
-            return Rank.fromRaw(rawVal + 1)
+            let rawVal = self.rawValue
+            return Rank(rawValue: rawVal + 1)
         }
     }
     
@@ -111,9 +111,9 @@ enum Rank: Int, SequenceType, Printable {
     
     func ranking(acesHigh: Bool = false) -> Int {
         if acesHigh && self == .Ace {
-            return Rank.King.toRaw() + 1
+            return Rank.King.rawValue + 1
         }
-        return self.toRaw()
+        return self.rawValue
     }
     
     func compareTo(rhs:Rank, acesHigh: Bool = false) -> Int {
@@ -422,8 +422,8 @@ faceCardSymbols
 let piquetDeck = deck.filter {
     (card: Card) in
     // an alternative to switching on raw values is to make Rank Comparable, but that conflicts with making the acesHigh rule explicit
-    switch card.rank.toRaw() {
-    case Rank.Two.toRaw()...Rank.Six.toRaw():
+    switch card.rank.rawValue {
+    case Rank.Two.rawValue...Rank.Six.rawValue:
         return false
     default:
         return true
